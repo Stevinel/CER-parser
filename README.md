@@ -17,7 +17,7 @@
 - Установить зависимости (requirements.txt)
 - Запустить main.py
 
-### Стек
+### Стек:
 - Python
 - BeautifulSoup
 - Loguru
