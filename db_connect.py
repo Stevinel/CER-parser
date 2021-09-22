@@ -1,7 +1,11 @@
-__connection = None
 import sqlite3
-import main
+
 from loguru import logger
+
+import main
+
+__connection = None
+
 
 @logger.catch
 def get_connection():
@@ -9,7 +13,6 @@ def get_connection():
     global __connection
     if __connection is None:
         __connection = sqlite3.connect("currency.db", check_same_thread=False)
-        __connection = sqlite3.connect("codes_and_currency.db", check_same_thread=False)
     return __connection
 
 
@@ -21,7 +24,6 @@ def init_db(force: bool = False):
 
     if force:
         c.execute("DROP TABLE IF EXISTS currency")
-        c.execute("DROP TABLE IF EXISTS codes_and_currency")
 
     c.execute(
         """
@@ -49,8 +51,8 @@ def init_db(force: bool = False):
 
 @logger.catch
 def add_currency_data():
-    """ Функция удаляет имеющиеся коды и имена валют, получает новые
-    если такие имеются """
+    """Функция удаляет имеющиеся коды и имена валют, получает новые
+    если такие имеются"""
     conn = get_connection()
     c = conn.cursor()
     c.execute("DELETE FROM codes_and_currency")
@@ -60,17 +62,18 @@ def add_currency_data():
     for value, title in x.items():
         c.execute(
             "INSERT INTO codes_and_currency (code, title)\
-            VALUES (?, ?);", (str(value), str(title))
+            VALUES (?, ?);",
+            (str(value), str(title)),
         )
     conn.commit()
 
 
 @logger.catch
 def get_currency_list():
-    """ Функция отдаёт список существующих валют """
+    """Функция отдаёт список существующих валют"""
     conn = get_connection()
     c = conn.cursor()
-
+    c.execute("DELETE FROM currency")
     c.execute(
         "SELECT code, title\
         FROM codes_and_currency\
@@ -82,19 +85,15 @@ def get_currency_list():
 
 @logger.catch
 def add_currency_info(currency):
-    """ Функция  """
+    """Функция"""
     conn = get_connection()
     c = conn.cursor()
     currency_data = main.get_currency_data(currency)
-    
-    # for i in currency_data:
-    #     print(i)
 
-    # c.execute(
-    #     "SELECT code, title\
-    #     FROM codes_and_currency\
-    #     ORDER BY title"
-    # )
-
-
-
+    for elem in currency_data:
+        c.execute(
+            "INSERT INTO currency (date, units, course)\
+                VALUES (?, ?, ?);",
+            (elem[0], elem[1], elem[2]),
+        )
+    conn.commit()
