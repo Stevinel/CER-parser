@@ -85,7 +85,7 @@ def get_currency_list():
 
 @logger.catch
 def add_currency_info(currency):
-    """Функция"""
+    """Функция собирает все данные о заданной валюте и заносит в БД"""
     conn = get_connection()
     c = conn.cursor()
     currency_data = main.get_currency_data(currency)
