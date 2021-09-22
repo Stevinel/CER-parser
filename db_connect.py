@@ -1,8 +1,8 @@
 import sqlite3
-from pathlib import Path
 
 from loguru import logger
 from xlsxwriter.workbook import Workbook
+from pathlib import Path
 
 import main
 
@@ -81,8 +81,11 @@ def get_currency_list():
         FROM codes_and_currency\
         ORDER BY title"
     )
-    (choose) = c.fetchall()
-    return choose
+    choose_data = c.fetchall()
+    codes_and_titles = []
+    for elem in choose_data:
+        codes_and_titles.append((" - ".join(elem)))
+    return codes_and_titles
 
 
 @logger.catch
@@ -124,3 +127,4 @@ def export_db_to_excel(currency):
         for j, value in enumerate(row):
             worksheet.write(i, j, row[j])
     workbook.close()
+    logger.info("The script has completed the work")

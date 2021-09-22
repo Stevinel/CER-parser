@@ -84,22 +84,22 @@ def get_currency_code_and_title():
     return values, titles
 
 
-if __name__ == "__main__":
-    db_connect.init_db()
-    db_connect.add_currency_data()
+# if __name__ == "__main__":
+#     db_connect.init_db()
+#     db_connect.add_currency_data()
 
-    print(
-        "Добро пожаловать!\n"
-        "Выберите номер интересующей Вас валюты и введите его."
-    )
-    print()
-    print("*" * 55)
-    choose_currency = db_connect.get_currency_list()
-    print(*choose_currency, sep='\n ')
-    print("*" * 55)
-    print()
-    currency = input("Введите номер валюты: ")
+#     print(
+#         "Добро пожаловать!\n"
+#         "Выберите номер интересующей Вас валюты и введите его."
+#     )
+#     print()
+#     print("*" * 55)
+#     choose_currency = db_connect.get_currency_list()
+#     print(*choose_currency, sep='\n')
+#     print("*" * 55)
+#     print()
+#     currency = input("Введите номер валюты: ")
 
-    logger.info("Script started work")
-    db_connect.add_currency_info(currency)
-    db_connect.export_db_to_excel(currency)
+#     logger.info("Script started work")
+#     db_connect.add_currency_info(currency)
+#     db_connect.export_db_to_excel(currency)
