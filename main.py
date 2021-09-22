@@ -84,7 +84,7 @@ def get_currency_code_and_title():
     return values, titles
 
 
-# if __name__ == "__main__":
+# if __name__ == "__main__": # Возможность запустить код в командной строке
 #     db_connect.init_db()
 #     db_connect.add_currency_data()
 
