@@ -1,6 +1,8 @@
 import sqlite3
+from pathlib import Path
 
 from loguru import logger
+from xlsxwriter.workbook import Workbook
 
 import main
 
@@ -97,3 +99,28 @@ def add_currency_info(currency):
             (elem[0], elem[1], elem[2]),
         )
     conn.commit()
+
+
+@logger.catch
+def export_db_to_excel(currency):
+    """Функция создаёт папку и сохраняет в неё таблицу с данными о курсах"""
+    conn = get_connection()
+    c = conn.cursor()
+    Path("Tables").mkdir(parents=True, exist_ok=True)
+
+    title = c.execute(
+        "SELECT title\
+        FROM codes_and_currency WHERE code = '{}'".format(
+            currency
+        )
+    )
+    currency_name = "".join(title.fetchone())
+    workbook = Workbook(f"Tables/{currency_name}.xlsx")
+    worksheet = workbook.add_worksheet()
+
+    c.execute("SELECT * FROM currency")
+    mysel = c.execute("SELECT * FROM currency ")
+    for i, row in enumerate(mysel):
+        for j, value in enumerate(row):
+            worksheet.write(i, j, row[j])
+    workbook.close()

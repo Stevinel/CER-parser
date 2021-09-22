@@ -102,3 +102,4 @@ if __name__ == "__main__":
 
     logger.info("Script started work")
     db_connect.add_currency_info(currency)
+    db_connect.export_db_to_excel(currency)
