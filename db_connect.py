@@ -1,8 +1,9 @@
 import sqlite3
+from pathlib import Path
+from tkinter import messagebox
 
 from loguru import logger
 from xlsxwriter.workbook import Workbook
-from pathlib import Path
 
 import main
 
@@ -83,9 +84,11 @@ def get_currency_list():
     )
     choose_data = c.fetchall()
     codes_and_titles = []
+    all_codes = []
     for elem in choose_data:
         codes_and_titles.append((" - ".join(elem)))
-    return codes_and_titles
+        all_codes.append(elem[0])
+    return codes_and_titles, all_codes
 
 
 @logger.catch
@@ -128,3 +131,4 @@ def export_db_to_excel(currency):
             worksheet.write(i, j, row[j])
     workbook.close()
     logger.info("The script has completed the work")
+    messagebox.showinfo("Информация", message="Таблица создана")

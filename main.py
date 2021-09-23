@@ -1,4 +1,5 @@
 import datetime as dt
+from tkinter import messagebox
 
 from bs4 import BeautifulSoup
 from loguru import logger
@@ -44,10 +45,12 @@ def get_currency_data(currency):
         )
         soup = BeautifulSoup(response.text, "html.parser")
         data = soup.find_all("td")  # td - tag in html
-        if not data:
-            logger.info("There is no data for this period")
+        values = [elem.text for elem in data]
+        codes_data, all_codes = db_connect.get_currency_list()
+        if not data or currency not in all_codes:
+            logger.info("Such a code does not exist")
+            messagebox.showinfo("Ошибка", message="Такой код  не существует")
         else:
-            values = [elem.text for elem in data]
             values.pop(0)
 
             currency_data = []

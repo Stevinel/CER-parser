@@ -29,7 +29,7 @@ help_text.pack()
 entry = Entry(frame_bottom, bg="white", font=30, width=15)
 entry.pack()
 
-choose_currency = db_connect.get_currency_list()
+choose_currency, all_codes = db_connect.get_currency_list()
 frame_top = Frame(window, bg="#ffb700", bd=5)
 frame_top.place(relx=0.15, rely=0.15, relwidth=0.7, relheight=0.3)
 
