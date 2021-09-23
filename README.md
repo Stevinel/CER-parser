@@ -15,6 +15,7 @@
 - Клонировать репозиторий https://github.com/Stevinel/CER_parser
 - Установить виртуальное оружение
 - Установить зависимости (requirements.txt)
+- Раскомментить name == main
 - Запустить main.py
 
 ### Стек:
